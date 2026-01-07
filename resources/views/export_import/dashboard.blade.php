@@ -389,28 +389,26 @@
             document.getElementById(id).style.display = 'none';
         }
 
-        // Handle form submission
-        document.addEventListener('click', function(event) {
-            const submitBtn = event.target.closest('button[type="submit"]');
-            if (!submitBtn) return;
+        // Handle form submission with submit event (more reliable than click)
+        document.addEventListener('submit', function(event) {
+            const form = event.target;
 
-            const form = submitBtn.closest('form');
-            if (!form) return;
+            if (!form.classList.contains('reject-form') && !form.classList.contains('approve-form')) {
+                return;
+            }
 
-            // Find the modal that contains this form
             const modal = form.closest('[id^="approval-modal-"]');
             if (!modal) return;
 
-            // Find textarea in the modal
             const textarea = modal.querySelector('textarea[id^="notes-"]');
             if (!textarea) return;
 
-            // Find the hidden notes input in the form
             const notesInput = form.querySelector('input[name="notes"]');
             if (notesInput) {
                 notesInput.value = textarea.value;
+                console.log('Notes captured for export-import:', notesInput.value);
             }
-        });
+        }, true); // Capture phase - ensures runs before form submission
 
         // Close modal when clicking outside
         document.addEventListener('click', function(event) {

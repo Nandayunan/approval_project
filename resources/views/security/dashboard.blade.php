@@ -389,13 +389,14 @@
             document.getElementById(id).style.display = 'none';
         }
 
-        // Handle form submission
-        document.addEventListener('click', function(event) {
-            const submitBtn = event.target.closest('button[type="submit"]');
-            if (!submitBtn) return;
+        // Handle form submission - capture notes before submit
+        document.addEventListener('submit', function(event) {
+            const form = event.target;
 
-            const form = submitBtn.closest('form');
-            if (!form) return;
+            // Check if form is either reject-form or approve-form
+            if (!form.classList.contains('reject-form') && !form.classList.contains('approve-form')) {
+                return;
+            }
 
             // Find the modal that contains this form
             const modal = form.closest('[id^="approval-modal-"]');
@@ -405,12 +406,13 @@
             const textarea = modal.querySelector('textarea[id^="notes-"]');
             if (!textarea) return;
 
-            // Find the hidden notes input in the form
+            // Find the hidden notes input in the form and populate it
             const notesInput = form.querySelector('input[name="notes"]');
             if (notesInput) {
                 notesInput.value = textarea.value;
+                console.log('Notes captured:', notesInput.value);
             }
-        });
+        }, true); // Use capture phase to ensure it runs before form submission
 
         // Close modal when clicking outside
         document.addEventListener('click', function(event) {
