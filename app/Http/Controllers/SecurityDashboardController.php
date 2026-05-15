@@ -56,16 +56,8 @@ class SecurityDashboardController extends Controller
 
         // Update form status
         $form = $approval->model;
-        $form->update(['status' => 'menunggu_persetujuan_exim']);
-
-        // Create next approval for export-import
-        Approval::create([
-            'user_id' => $form->user_id,
-            'model_type' => $approval->model_type,
-            'model_id' => $approval->model_id,
-            'approval_level' => 'export_import',
-            'status' => 'pending',
-        ]);
+        // Final approval: mark form as approved
+        $form->update(['status' => 'approved']);
 
         return redirect()->back()->with('success', 'Formulir telah disetujui!');
     }

@@ -63,6 +63,12 @@
                                             <i class="fas fa-film"></i> Film
                                         </span>
                                     @endif
+                                    <div class="mt-2">
+                                        <span
+                                            class="inline-flex items-center gap-2 px-2 py-1 bg-yellow-50 text-yellow-700 rounded-full text-xs font-semibold">
+                                            Menunggu Persetujuan Security
+                                        </span>
+                                    </div>
                                 </td>
                                 <td class="px-6 py-4 text-sm text-gray-600">{{ $approval->user->name }}</td>
                                 <td class="px-6 py-4 text-sm text-gray-600">{{ $approval->created_at->format('d M Y H:i') }}
@@ -144,9 +150,13 @@
                                                             </p>
                                                         </div>
                                                         <div>
-                                                            <p class="text-gray-600">No Faktur PO</p>
+                                                            <p class="text-gray-600">No PO</p>
+                                                            <p class="font-medium text-gray-900">{{ $form->po_number }}</p>
+                                                        </div>
+                                                        <div>
+                                                            <p class="text-gray-600">No Faktur</p>
                                                             <p class="font-medium text-gray-900">
-                                                                {{ $form->po_invoice_number }}</p>
+                                                                {{ $form->invoice_number }}</p>
                                                         </div>
                                                         <div>
                                                             <p class="text-gray-600">No Plat Kendaraan</p>

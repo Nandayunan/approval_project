@@ -11,6 +11,8 @@ class PackagingForm extends Model
         'supplier_name',
         'npwp_number',
         'po_invoice_number',
+        'po_number',
+        'invoice_number',
         'packaging_list',
         'vehicle_registration_number',
         'total_packages',
@@ -44,6 +46,18 @@ class PackagingForm extends Model
     public function approvals()
     {
         return $this->morphMany(Approval::class, 'model');
+    }
+
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            if (empty($model->po_invoice_number)) {
+                $po = $model->po_number ?? '';
+                $inv = $model->invoice_number ?? '';
+                $combined = trim($po . (!empty($inv) ? ' / ' . $inv : ''));
+                $model->po_invoice_number = $combined !== '' ? $combined : '';
+            }
+        });
     }
 
     public function getStatusLabelAttribute()

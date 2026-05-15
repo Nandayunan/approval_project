@@ -29,7 +29,7 @@
                     <thead class="bg-gray-50 border-b border-gray-200">
                         <tr>
                             <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">No NPWP</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">No Faktur PO</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">No PO / No Faktur</th>
                             <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Nama Barang</th>
                             <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Status</th>
                             <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Tanggal</th>
@@ -40,7 +40,8 @@
                         @foreach ($forms as $form)
                             <tr class="hover:bg-gray-50 transition">
                                 <td class="px-6 py-4 text-sm text-gray-900">{{ $form->npwp_number }}</td>
-                                <td class="px-6 py-4 text-sm text-gray-900">{{ $form->po_invoice_number }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">{{ $form->po_number }} /
+                                    {{ $form->invoice_number }}</td>
                                 <td class="px-6 py-4 text-sm text-gray-900 font-medium">{{ $form->item_name }}</td>
                                 <td class="px-6 py-4 text-sm">
                                     <span
@@ -126,8 +127,12 @@
                             <p class="font-medium text-gray-900">{{ $form->npwp_number }}</p>
                         </div>
                         <div>
-                            <p class="text-sm text-gray-600 font-semibold">No Faktur PO</p>
-                            <p class="font-medium text-gray-900">{{ $form->po_invoice_number }}</p>
+                            <p class="text-sm text-gray-600 font-semibold">No PO</p>
+                            <p class="font-medium text-gray-900">{{ $form->po_number }}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-600 font-semibold">No Faktur</p>
+                            <p class="font-medium text-gray-900">{{ $form->invoice_number }}</p>
                         </div>
                         <div>
                             <p class="text-sm text-gray-600 font-semibold">Nama Barang</p>

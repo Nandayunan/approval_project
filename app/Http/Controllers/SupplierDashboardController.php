@@ -38,7 +38,8 @@ class SupplierDashboardController extends Controller
         $validated = $request->validate([
             'supplier_name' => 'required|string',
             'npwp_number' => 'required|string',
-            'po_invoice_number' => 'required|string',
+            'po_number' => 'required|string',
+            'invoice_number' => 'required|string',
             'packaging_list' => 'required|string',
             'vehicle_registration_number' => 'required|string',
             'total_packages' => 'required|integer',
@@ -63,16 +64,18 @@ class SupplierDashboardController extends Controller
         $validated['packaging_list'] = json_encode($packaging_list);
 
         $form = PackagingForm::create(array_merge($validated, [
+            // Keep backward-compatible column `po_invoice_number` populated
+            'po_invoice_number' => ($validated['po_number'] ?? '') . (!empty($validated['invoice_number']) ? ' / ' . $validated['invoice_number'] : ''),
             'user_id' => Auth::id(),
-            'status' => 'menunggu_persetujuan_security',
+            'status' => 'menunggu_persetujuan_exim',
         ]));
 
-        // Create approval record for security level
+        // Create initial approval record for Export-Import (ExIm) level
         Approval::create([
             'user_id' => Auth::id(),
             'model_type' => 'PackagingForm',
             'model_id' => $form->id,
-            'approval_level' => 'security',
+            'approval_level' => 'export_import',
             'status' => 'pending',
         ]);
 
@@ -114,15 +117,15 @@ class SupplierDashboardController extends Controller
 
         $form = ResinForm::create(array_merge($validated, [
             'user_id' => Auth::id(),
-            'status' => 'menunggu_persetujuan_security',
+            'status' => 'menunggu_persetujuan_exim',
         ]));
 
-        // Create approval record for security level
+        // Create initial approval record for Export-Import (ExIm) level
         Approval::create([
             'user_id' => Auth::id(),
             'model_type' => 'ResinForm',
             'model_id' => $form->id,
-            'approval_level' => 'security',
+            'approval_level' => 'export_import',
             'status' => 'pending',
         ]);
 
@@ -162,15 +165,15 @@ class SupplierDashboardController extends Controller
 
         $form = FilmForm::create(array_merge($validated, [
             'user_id' => Auth::id(),
-            'status' => 'menunggu_persetujuan_security',
+            'status' => 'menunggu_persetujuan_exim',
         ]));
 
-        // Create approval record for security level
+        // Create initial approval record for Export-Import (ExIm) level
         Approval::create([
             'user_id' => Auth::id(),
             'model_type' => 'FilmForm',
             'model_id' => $form->id,
-            'approval_level' => 'security',
+            'approval_level' => 'export_import',
             'status' => 'pending',
         ]);
 

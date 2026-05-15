@@ -14,7 +14,7 @@
         <div class="card p-6 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200">
             <div class="flex items-start justify-between">
                 <div>
-                    <p class="text-gray-600 text-sm font-semibold uppercase tracking-wide">Formulir Pengemasan</p>
+                    <p class="text-gray-600 text-sm font-semibold uppercase tracking-wide">Formulir Packaging</p>
                     <p class="text-4xl font-bold text-blue-600 mt-3">{{ $packageCount }}</p>
                     <p class="text-gray-500 text-sm mt-2">Total formulir terdata</p>
                 </div>

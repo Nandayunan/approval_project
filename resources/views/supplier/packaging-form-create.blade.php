@@ -58,11 +58,18 @@
                             value="{{ old('npwp_number') }}" required>
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Nomor Faktur PO <span
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Nomor PO <span
                                 class="text-red-600">*</span></label>
-                        <input type="text" name="po_invoice_number"
+                        <input type="text" name="po_number"
                             class="w-full px-4 py-3 border-2 border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition bg-white"
-                            value="{{ old('po_invoice_number') }}" required>
+                            value="{{ old('po_number') }}" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Nomor Faktur <span
+                                class="text-red-600">*</span></label>
+                        <input type="text" name="invoice_number"
+                            class="w-full px-4 py-3 border-2 border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition bg-white"
+                            value="{{ old('invoice_number') }}" required>
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Nomor Registrasi Kendaraan <span

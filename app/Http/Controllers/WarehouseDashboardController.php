@@ -66,7 +66,17 @@ class WarehouseDashboardController extends Controller
 
         // Update form status
         $form = $approval->model;
-        $form->update(['status' => 'approved']);
+        // Move to next step: security approval
+        $form->update(['status' => 'menunggu_persetujuan_security']);
+
+        // Create next approval for security
+        Approval::create([
+            'user_id' => $form->user_id,
+            'model_type' => $approval->model_type,
+            'model_id' => $approval->model_id,
+            'approval_level' => 'security',
+            'status' => 'pending',
+        ]);
 
         return redirect()->back()->with('success', 'Formulir telah disetujui!');
     }
