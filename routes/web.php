@@ -29,6 +29,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('film-forms', [SupplierDashboardController::class, 'filmForms'])->name('film-forms');
         Route::get('film-forms/create', [SupplierDashboardController::class, 'filmFormCreate'])->name('film-forms.create');
         Route::post('film-forms', [SupplierDashboardController::class, 'filmFormStore'])->name('film-forms.store');
+
+        Route::get('tegra-forms', [SupplierDashboardController::class, 'tegraForms'])->name('tegra-forms');
+        Route::get('tegra-forms/create', [SupplierDashboardController::class, 'tegraFormCreate'])->name('tegra-forms.create');
+        Route::post('tegra-forms', [SupplierDashboardController::class, 'tegraFormStore'])->name('tegra-forms.store');
     });
 
     // Security Routes

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\PackagingForm;
 use App\Models\ResinForm;
 use App\Models\FilmForm;
+use App\Models\TegraForm;
 use App\Models\Approval;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +19,7 @@ class SupplierDashboardController extends Controller
             'packageCount' => PackagingForm::where('user_id', $user->id)->count(),
             'resinCount' => ResinForm::where('user_id', $user->id)->count(),
             'filmCount' => FilmForm::where('user_id', $user->id)->count(),
+            'tegraCount' => TegraForm::where('user_id', $user->id)->count(),
         ]);
     }
 
@@ -97,23 +99,32 @@ class SupplierDashboardController extends Controller
     public function resinFormStore(Request $request)
     {
         $validated = $request->validate([
-            'transport_type' => 'required|in:udara,laut',
-            'awb_number' => 'required_if:transport_type,udara|string|nullable',
-            'bill_of_lading' => 'required_if:transport_type,laut|string|nullable',
+            'supplier_name' => 'required|string',
+            'npwp_number' => 'required|string',
+            'po_number' => 'required|string',
             'invoice_number' => 'required|string',
             'packaging_list' => 'required|string',
-            'manifest_entry' => 'required|string',
-            'noa_number' => 'required|string',
+            'vehicle_registration_number' => 'required|string',
+            'total_packages' => 'required|integer',
+            'total_types' => 'required|integer',
+            'gross_weight' => 'required|numeric',
+            'hs_code' => 'required|string',
+            'item_name' => 'required|string',
+            'item_code' => 'required|string',
+            'quantity' => 'required|integer',
+            'type' => 'required|string',
+            'packaging_type' => 'required|string',
+            'package_quantity' => 'required|integer',
+            'net_weight' => 'required|numeric',
+            'item_price' => 'required|numeric',
+            'arrival_datetime' => 'required|date_format:Y-m-d\TH:i',
+            'departure_datetime' => 'required|date_format:Y-m-d\TH:i',
         ]);
 
-        // Convert to JSON arrays
+        // Convert packaging_list dari text ke JSON array
         $packaging_list = explode(',', $validated['packaging_list']);
         $packaging_list = array_map('trim', $packaging_list);
-        $manifest_entry = explode(',', $validated['manifest_entry']);
-        $manifest_entry = array_map('trim', $manifest_entry);
-
         $validated['packaging_list'] = json_encode($packaging_list);
-        $validated['manifest_entry'] = json_encode($manifest_entry);
 
         $form = ResinForm::create(array_merge($validated, [
             'user_id' => Auth::id(),
@@ -129,7 +140,7 @@ class SupplierDashboardController extends Controller
             'status' => 'pending',
         ]);
 
-        return redirect()->route('supplier.resin-forms')->with('success', 'Formulir resin berhasil dikirimkan!');
+        return redirect()->route('supplier.resin-forms')->with('success', 'Formulir Continoa berhasil dikirimkan!');
     }
 
     public function filmForms()
@@ -147,21 +158,32 @@ class SupplierDashboardController extends Controller
     public function filmFormStore(Request $request)
     {
         $validated = $request->validate([
-            'awb_number' => 'required|string',
+            'supplier_name' => 'required|string',
+            'npwp_number' => 'required|string',
+            'po_number' => 'required|string',
             'invoice_number' => 'required|string',
             'packaging_list' => 'required|string',
-            'manifest_entry' => 'required|string',
-            'noa_number' => 'required|string',
+            'vehicle_registration_number' => 'required|string',
+            'total_packages' => 'required|integer',
+            'total_types' => 'required|integer',
+            'gross_weight' => 'required|numeric',
+            'hs_code' => 'required|string',
+            'item_name' => 'required|string',
+            'item_code' => 'required|string',
+            'quantity' => 'required|integer',
+            'type' => 'required|string',
+            'packaging_type' => 'required|string',
+            'package_quantity' => 'required|integer',
+            'net_weight' => 'required|numeric',
+            'item_price' => 'required|numeric',
+            'arrival_datetime' => 'required|date_format:Y-m-d\TH:i',
+            'departure_datetime' => 'required|date_format:Y-m-d\TH:i',
         ]);
 
-        // Convert to JSON arrays
+        // Convert packaging_list dari text ke JSON array
         $packaging_list = explode(',', $validated['packaging_list']);
         $packaging_list = array_map('trim', $packaging_list);
-        $manifest_entry = explode(',', $validated['manifest_entry']);
-        $manifest_entry = array_map('trim', $manifest_entry);
-
         $validated['packaging_list'] = json_encode($packaging_list);
-        $validated['manifest_entry'] = json_encode($manifest_entry);
 
         $form = FilmForm::create(array_merge($validated, [
             'user_id' => Auth::id(),
@@ -177,6 +199,51 @@ class SupplierDashboardController extends Controller
             'status' => 'pending',
         ]);
 
-        return redirect()->route('supplier.film-forms')->with('success', 'Formulir film berhasil dikirimkan!');
+        return redirect()->route('supplier.film-forms')->with('success', 'Formulir Film berhasil dikirimkan!');
+    }
+
+    public function tegraForms()
+    {
+        $user = Auth::user();
+        $forms = TegraForm::where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
+        return view('supplier.tegra-forms', compact('forms'));
+    }
+
+    public function tegraFormCreate()
+    {
+        return view('supplier.tegra-form-create');
+    }
+
+    public function tegraFormStore(Request $request)
+    {
+        $validated = $request->validate([
+            'po_number' => 'required|string',
+            'invoice_number' => 'required|string',
+            'item_name' => 'required|string',
+            'item_code' => 'required|string',
+            'quantity' => 'required|integer',
+            'type' => 'required|string',
+            'packaging_type' => 'required|string',
+            'package_quantity' => 'required|integer',
+            'net_weight' => 'required|numeric',
+            'item_price' => 'required|numeric',
+            'notes' => 'nullable|string',
+        ]);
+
+        $form = TegraForm::create(array_merge($validated, [
+            'user_id' => Auth::id(),
+            'status' => 'menunggu_persetujuan_exim',
+        ]));
+
+        // Create initial approval record for Export-Import (ExIm) level
+        Approval::create([
+            'user_id' => Auth::id(),
+            'model_type' => 'TegraForm',
+            'model_id' => $form->id,
+            'approval_level' => 'export_import',
+            'status' => 'pending',
+        ]);
+
+        return redirect()->route('supplier.tegra-forms')->with('success', 'Formulir tegra berhasil dikirimkan!');
     }
 }

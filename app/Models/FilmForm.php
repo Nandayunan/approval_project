@@ -3,30 +3,55 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class FilmForm extends Model
 {
     protected $fillable = [
         'user_id',
-        'awb_number',
+        'supplier_name',
+        'npwp_number',
+        'po_number',
         'invoice_number',
+        'vehicle_registration_number',
         'packaging_list',
-        'manifest_entry',
-        'noa_number',
+        'total_packages',
+        'total_types',
+        'gross_weight',
+        'hs_code',
+        'item_name',
+        'item_code',
+        'quantity',
+        'type',
+        'packaging_type',
+        'package_quantity',
+        'net_weight',
+        'item_price',
+        'arrival_datetime',
+        'departure_datetime',
         'status',
     ];
 
     protected $casts = [
         'packaging_list' => 'array',
-        'manifest_entry' => 'array',
+        'total_packages' => 'integer',
+        'total_types' => 'integer',
+        'gross_weight' => 'float',
+        'quantity' => 'integer',
+        'package_quantity' => 'integer',
+        'net_weight' => 'float',
+        'item_price' => 'float',
+        'arrival_datetime' => 'datetime',
+        'departure_datetime' => 'datetime',
     ];
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function approvals()
+    public function approvals(): MorphMany
     {
         return $this->morphMany(Approval::class, 'model');
     }

@@ -18,8 +18,9 @@
             <table class="min-w-full">
                 <thead class="bg-gray-100 border-b-2 border-gray-300">
                     <tr>
-                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Nomor AWB</th>
-                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Nomor Invoice</th>
+                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Nama Pemasok</th>
+                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">PO Number</th>
+                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Invoice Number</th>
                         <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Status</th>
                         <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Tanggal</th>
                         <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Aksi</th>
@@ -28,7 +29,8 @@
                 <tbody class="divide-y divide-gray-200">
                     @foreach ($forms as $form)
                         <tr class="hover:bg-gray-50 transition">
-                            <td class="px-6 py-4 text-sm text-gray-900">{{ $form->awb_number }}</td>
+                            <td class="px-6 py-4 text-sm text-gray-900">{{ $form->supplier_name }}</td>
+                            <td class="px-6 py-4 text-sm text-gray-900">{{ $form->po_number }}</td>
                             <td class="px-6 py-4 text-sm text-gray-900">{{ $form->invoice_number }}</td>
                             <td class="px-6 py-4 text-sm">
                                 <span
