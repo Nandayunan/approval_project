@@ -60,7 +60,7 @@
                                     @elseif($approval->model_type === 'FilmForm')
                                         <span
                                             class="inline-flex items-center gap-2 px-3 py-1 bg-pink-100 text-pink-700 rounded-full text-xs font-semibold">
-                                            <i class="fas fa-film"></i> Film
+                                            <i class="fas fa-film"></i> Uncoat
                                         </span>
                                     @endif
                                     <div class="mt-2">
@@ -95,7 +95,7 @@
                                             @elseif($approval->model_type === 'ResinForm')
                                                 <i class="fas fa-flask"></i> Detail Formulir Resin
                                             @elseif($approval->model_type === 'FilmForm')
-                                                <i class="fas fa-film"></i> Detail Formulir Film
+                                                <i class="fas fa-film"></i> Detail Formulir Uncoat
                                             @endif
                                         </h2>
                                         <button onclick="hideModal('approval-modal-{{ $approval->id }}')"

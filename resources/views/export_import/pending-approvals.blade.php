@@ -51,7 +51,7 @@
                                 $modelLabel = match ($approval->model_type) {
                                     'PackagingForm', 'App\\Models\\PackagingForm' => 'Pengemasan',
                                     'ResinForm', 'App\\Models\\ResinForm' => 'Resin',
-                                    'FilmForm', 'App\\Models\\FilmForm' => 'Film',
+                                    'FilmForm', 'App\\Models\\FilmForm' => 'Uncoat',
                                     'TegraForm', 'App\\Models\\TegraForm' => 'Tegra',
                                     default => 'Formulir',
                                 };
@@ -120,7 +120,7 @@
                                 $modelLabel = match ($approval->model_type) {
                                     'PackagingForm', 'App\\Models\\PackagingForm' => 'Pengemasan',
                                     'ResinForm', 'App\\Models\\ResinForm' => 'Resin',
-                                    'FilmForm', 'App\\Models\\FilmForm' => 'Film',
+                                    'FilmForm', 'App\\Models\\FilmForm' => 'Uncoat',
                                     'TegraForm', 'App\\Models\\TegraForm' => 'Tegra',
                                     default => 'Formulir',
                                 };
