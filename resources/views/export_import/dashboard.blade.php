@@ -55,12 +55,17 @@
                                     @elseif($approval->model_type === 'ResinForm')
                                         <span
                                             class="inline-flex items-center gap-2 px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-semibold">
-                                            <i class="fas fa-flask"></i> Resin
+                                            <i class="fas fa-flask"></i> Continoa
                                         </span>
                                     @elseif($approval->model_type === 'FilmForm')
                                         <span
                                             class="inline-flex items-center gap-2 px-3 py-1 bg-pink-100 text-pink-700 rounded-full text-xs font-semibold">
-                                            <i class="fas fa-film"></i> Film
+                                            <i class="fas fa-film"></i> Uncoat
+                                        </span>
+                                    @elseif($approval->model_type === 'TegraForm')
+                                        <span
+                                            class="inline-flex items-center gap-2 px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-semibold">
+                                            <i class="fas fa-microchip"></i> Tegra
                                         </span>
                                     @endif
                                     <div class="mt-2">
@@ -93,9 +98,11 @@
                                             @if ($approval->model_type === 'PackagingForm')
                                                 <i class="fas fa-box"></i> Detail Formulir Pengemasan
                                             @elseif($approval->model_type === 'ResinForm')
-                                                <i class="fas fa-flask"></i> Detail Formulir Resin
+                                                <i class="fas fa-flask"></i> Detail Formulir Continoa
                                             @elseif($approval->model_type === 'FilmForm')
-                                                <i class="fas fa-film"></i> Detail Formulir Film
+                                                <i class="fas fa-film"></i> Detail Formulir Uncoat
+                                            @elseif($approval->model_type === 'TegraForm')
+                                                <i class="fas fa-microchip"></i> Detail Formulir Tegra
                                             @endif
                                         </h2>
                                         <button onclick="hideModal('approval-modal-{{ $approval->id }}')"
@@ -133,7 +140,7 @@
 
                                         <!-- Form Data -->
                                         <div class="space-y-6 mb-6">
-                                            @if ($approval->model_type === 'PackagingForm')
+                                            @if (in_array($approval->model_type, ['PackagingForm', 'ResinForm', 'FilmForm']))
                                                 <div class="border-l-4 border-blue-600 pl-4">
                                                     <h3
                                                         class="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">
@@ -253,6 +260,67 @@
                                                             <p class="text-gray-600">Tanggal Keberangkatan</p>
                                                             <p class="font-medium text-gray-900">
                                                                 {{ \Carbon\Carbon::parse($form->departure_datetime)->format('d M Y H:i') }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @elseif ($approval->model_type === 'TegraForm')
+                                                <div class="border-l-4 border-red-600 pl-4">
+                                                    <h3
+                                                        class="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">
+                                                        Detail Tegra</h3>
+                                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                                        <div>
+                                                            <p class="text-gray-600">No PO</p>
+                                                            <p class="font-medium text-gray-900">{{ $form->po_number }}
+                                                            </p>
+                                                        </div>
+                                                        <div>
+                                                            <p class="text-gray-600">No Faktur</p>
+                                                            <p class="font-medium text-gray-900">
+                                                                {{ $form->invoice_number }}</p>
+                                                        </div>
+                                                        <div>
+                                                            <p class="text-gray-600">Nama Barang</p>
+                                                            <p class="font-medium text-gray-900">{{ $form->item_name }}
+                                                            </p>
+                                                        </div>
+                                                        <div>
+                                                            <p class="text-gray-600">Kode Barang</p>
+                                                            <p class="font-medium text-gray-900">{{ $form->item_code }}
+                                                            </p>
+                                                        </div>
+                                                        <div>
+                                                            <p class="text-gray-600">Kuantitas</p>
+                                                            <p class="font-medium text-gray-900">{{ $form->quantity }}</p>
+                                                        </div>
+                                                        <div>
+                                                            <p class="text-gray-600">Tipe</p>
+                                                            <p class="font-medium text-gray-900">{{ $form->type }}</p>
+                                                        </div>
+                                                        <div>
+                                                            <p class="text-gray-600">Jenis Kemasan</p>
+                                                            <p class="font-medium text-gray-900">
+                                                                {{ $form->packaging_type }}</p>
+                                                        </div>
+                                                        <div>
+                                                            <p class="text-gray-600">Jumlah Paket</p>
+                                                            <p class="font-medium text-gray-900">
+                                                                {{ $form->package_quantity }}</p>
+                                                        </div>
+                                                        <div>
+                                                            <p class="text-gray-600">Berat Bersih</p>
+                                                            <p class="font-medium text-gray-900">{{ $form->net_weight }}
+                                                                kg</p>
+                                                        </div>
+                                                        <div>
+                                                            <p class="text-gray-600">Harga Barang</p>
+                                                            <p class="font-medium text-gray-900">Rp
+                                                                {{ number_format($form->item_price, 0, ',', '.') }}</p>
+                                                        </div>
+                                                        <div class="md:col-span-2">
+                                                            <p class="text-gray-600">Catatan</p>
+                                                            <p class="font-medium text-gray-900">{{ $form->notes ?? '-' }}
                                                             </p>
                                                         </div>
                                                     </div>
@@ -399,26 +467,24 @@
             document.getElementById(id).style.display = 'none';
         }
 
-        // Handle form submission with submit event (more reliable than click)
-        document.addEventListener('submit', function(event) {
-            const form = event.target;
-
-            if (!form.classList.contains('reject-form') && !form.classList.contains('approve-form')) {
-                return;
-            }
-
-            const modal = form.closest('[id^="approval-modal-"]');
-            if (!modal) return;
-
-            const textarea = modal.querySelector('textarea[id^="notes-"]');
-            if (!textarea) return;
-
+        function captureNotes(sourceId, form) {
+            const textarea = document.getElementById(sourceId);
+            if (!textarea || !form) return;
             const notesInput = form.querySelector('input[name="notes"]');
             if (notesInput) {
                 notesInput.value = textarea.value;
-                console.log('Notes captured for export-import:', notesInput.value);
             }
-        }, true); // Capture phase - ensures runs before form submission
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('click', function(event) {
+            if (event.target.classList && event.target.classList.contains('modal-wrapper')) {
+                const id = event.target.id;
+                if (id && id.startsWith('approval-modal-')) {
+                    hideModal(id);
+                }
+            }
+        });
 
         // Close modal when clicking outside
         document.addEventListener('click', function(event) {

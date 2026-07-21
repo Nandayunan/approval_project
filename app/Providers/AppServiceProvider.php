@@ -24,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
             'PackagingForm' => 'App\Models\PackagingForm',
             'ResinForm' => 'App\Models\ResinForm',
             'FilmForm' => 'App\Models\FilmForm',
+            'TegraForm' => 'App\Models\TegraForm',
         ]);
     }
 }
