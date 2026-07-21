@@ -16,7 +16,6 @@ class SupplierDashboardController extends Controller
     {
         $user = Auth::user();
         return view('supplier.dashboard', [
-            'packageCount' => PackagingForm::where('user_id', $user->id)->count(),
             'resinCount' => ResinForm::where('user_id', $user->id)->count(),
             'filmCount' => FilmForm::where('user_id', $user->id)->count(),
             'tegraCount' => TegraForm::where('user_id', $user->id)->count(),

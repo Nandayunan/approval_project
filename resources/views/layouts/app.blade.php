@@ -89,17 +89,17 @@
                             class="nav-link sidebar-active block px-4 py-2 rounded-lg {{ request()->routeIs('supplier.dashboard') ? 'sidebar-active' : 'hover:bg-blue-800' }} transition">
                             <i class="fas fa-chart-line w-5"></i> Dashboard
                         </a>
-                        <a href="{{ route('supplier.packaging-forms') }}"
-                            class="nav-link block px-4 py-2 rounded-lg {{ request()->routeIs('supplier.packaging*') ? 'sidebar-active' : 'hover:bg-blue-800' }} transition">
-                            <i class="fas fa-box w-5"></i> Pengemasan
-                        </a>
                         <a href="{{ route('supplier.resin-forms') }}"
                             class="nav-link block px-4 py-2 rounded-lg {{ request()->routeIs('supplier.resin*') ? 'sidebar-active' : 'hover:bg-blue-800' }} transition">
-                            <i class="fas fa-flask-vial w-5"></i> Resin
+                            <i class="fas fa-flask-vial w-5"></i> Continoa
                         </a>
                         <a href="{{ route('supplier.film-forms') }}"
                             class="nav-link block px-4 py-2 rounded-lg {{ request()->routeIs('supplier.film*') ? 'sidebar-active' : 'hover:bg-blue-800' }} transition">
-                            <i class="fas fa-film w-5"></i> Film
+                            <i class="fas fa-film w-5"></i> Uncoat
+                        </a>
+                        <a href="{{ route('supplier.tegra-forms') }}"
+                            class="nav-link block px-4 py-2 rounded-lg {{ request()->routeIs('supplier.tegra*') ? 'sidebar-active' : 'hover:bg-blue-800' }} transition">
+                            <i class="fas fa-microchip w-5"></i> Tegra
                         </a>
                     @elseif(auth()->user()->role === 'security')
                         <a href="{{ route('security.dashboard') }}"

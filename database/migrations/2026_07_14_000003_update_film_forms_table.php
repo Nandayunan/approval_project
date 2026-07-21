@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('film_forms', function (Blueprint $table) {
             $columns = Schema::getColumnListing('film_forms');
-            
+
             // Drop old columns if they exist
             if (in_array('awb_number', $columns)) {
                 $table->dropColumn('awb_number');
@@ -28,7 +28,7 @@ return new class extends Migration
 
         Schema::table('film_forms', function (Blueprint $table) {
             $columns = Schema::getColumnListing('film_forms');
-            
+
             // Add new columns like packaging_forms
             if (!in_array('supplier_name', $columns)) {
                 $table->string('supplier_name')->nullable();

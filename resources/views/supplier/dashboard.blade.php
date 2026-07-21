@@ -9,25 +9,7 @@
     </div>
 
     <!-- Stats Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-        <!-- Packaging Forms Card -->
-        <div class="card p-6 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200">
-            <div class="flex items-start justify-between">
-                <div>
-                    <p class="text-gray-600 text-sm font-semibold uppercase tracking-wide">Formulir Packaging</p>
-                    <p class="text-4xl font-bold text-blue-600 mt-3">{{ $packageCount }}</p>
-                    <p class="text-gray-500 text-sm mt-2">Total formulir terdata</p>
-                </div>
-                <div class="w-14 h-14 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-box text-blue-600 text-2xl"></i>
-                </div>
-            </div>
-            <a href="{{ route('supplier.packaging-forms') }}"
-                class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold text-sm mt-4">
-                Lihat Detail <i class="fas fa-arrow-right"></i>
-            </a>
-        </div>
-
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
         <!-- Resin Forms Card -->
         <div class="card p-6 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200">
             <div class="flex items-start justify-between">
@@ -89,21 +71,16 @@
             <i class="fas fa-lightning-bolt text-blue-600"></i>
             Aksi Cepat
         </h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <a href="{{ route('supplier.packaging-forms.create') }}"
-                class="flex items-center gap-3 px-4 py-3 bg-white rounded-lg hover:bg-blue-100 transition border border-blue-200">
-                <i class="fas fa-plus-circle text-blue-600 text-lg"></i>
-                <span class="font-semibold text-gray-900">Buat Pengemasan</span>
-            </a>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <a href="{{ route('supplier.resin-forms.create') }}"
                 class="flex items-center gap-3 px-4 py-3 bg-white rounded-lg hover:bg-blue-100 transition border border-blue-200">
                 <i class="fas fa-plus-circle text-blue-600 text-lg"></i>
-                <span class="font-semibold text-gray-900">Buat Resin</span>
+                <span class="font-semibold text-gray-900">Buat Continua</span>
             </a>
             <a href="{{ route('supplier.film-forms.create') }}"
                 class="flex items-center gap-3 px-4 py-3 bg-white rounded-lg hover:bg-blue-100 transition border border-blue-200">
                 <i class="fas fa-plus-circle text-blue-600 text-lg"></i>
-                <span class="font-semibold text-gray-900">Buat Film</span>
+                <span class="font-semibold text-gray-900">Buat Uncoat</span>
             </a>
             <a href="{{ route('supplier.tegra-forms.create') }}"
                 class="flex items-center gap-3 px-4 py-3 bg-white rounded-lg hover:bg-blue-100 transition border border-blue-200">
