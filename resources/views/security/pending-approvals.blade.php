@@ -55,12 +55,26 @@
                                     'TegraForm', 'App\\Models\\TegraForm' => 'Tegra',
                                     default => 'Formulir',
                                 };
+                                $badgeClass = match ($approval->model_type) {
+                                    'PackagingForm', 'App\\Models\\PackagingForm' => 'bg-blue-100 text-blue-700',
+                                    'ResinForm', 'App\\Models\\ResinForm' => 'bg-purple-100 text-purple-700',
+                                    'FilmForm', 'App\\Models\\FilmForm' => 'bg-pink-100 text-pink-700',
+                                    'TegraForm', 'App\\Models\\TegraForm' => 'bg-red-100 text-red-700',
+                                    default => 'bg-gray-100 text-gray-700',
+                                };
+                                $badgeIcon = match ($approval->model_type) {
+                                    'PackagingForm', 'App\\Models\\PackagingForm' => 'fa-box',
+                                    'ResinForm', 'App\\Models\\ResinForm' => 'fa-flask',
+                                    'FilmForm', 'App\\Models\\FilmForm' => 'fa-film',
+                                    'TegraForm', 'App\\Models\\TegraForm' => 'fa-microchip',
+                                    default => 'fa-file-alt',
+                                };
                             @endphp
                             <tr class="hover:bg-gray-50 transition">
                                 <td class="px-6 py-4 text-sm text-gray-900 font-medium">
                                     <span
-                                        class="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold">
-                                        <i class="fas fa-file-alt"></i> {{ $modelLabel }}
+                                        class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold {{ $badgeClass }}">
+                                        <i class="fas {{ $badgeIcon }}"></i> {{ $modelLabel }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 text-sm text-gray-600">{{ $approval->user->name }}</td>
@@ -124,11 +138,18 @@
                                     'TegraForm', 'App\\Models\\TegraForm' => 'Tegra',
                                     default => 'Formulir',
                                 };
+                                $badgeClass = match ($approval->model_type) {
+                                    'PackagingForm', 'App\\Models\\PackagingForm' => 'bg-blue-100 text-blue-700',
+                                    'ResinForm', 'App\\Models\\ResinForm' => 'bg-purple-100 text-purple-700',
+                                    'FilmForm', 'App\\Models\\FilmForm' => 'bg-pink-100 text-pink-700',
+                                    'TegraForm', 'App\\Models\\TegraForm' => 'bg-red-100 text-red-700',
+                                    default => 'bg-gray-100 text-gray-700',
+                                };
                             @endphp
                             <tr class="hover:bg-gray-50 transition">
                                 <td class="px-6 py-4 text-sm text-gray-900 font-medium">
                                     <span
-                                        class="inline-flex items-center gap-2 px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold">
+                                        class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold {{ $badgeClass }}">
                                         <i class="fas fa-file-alt"></i> {{ $modelLabel }}
                                     </span>
                                 </td>

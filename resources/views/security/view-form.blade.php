@@ -66,10 +66,20 @@
 
                 <div class="border-l-4 border-purple-600 pl-4 bg-gray-50 rounded-lg p-4">
                     <h2 class="text-sm font-semibold text-gray-700 uppercase mb-3">Data Kemasan</h2>
+                    @php
+                        $packagingList = $form->packaging_list;
+                        if (!is_array($packagingList)) {
+                            $packagingList = json_decode($packagingList, true);
+                        }
+                        if (!is_array($packagingList)) {
+                            $packagingList = $packagingList ? explode(',', (string) $form->packaging_list) : [];
+                        }
+                        $packagingList = array_filter(array_map('trim', $packagingList));
+                    @endphp
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-700">
                         <div>
                             <p class="text-gray-600">Daftar Kemasan</p>
-                            <p class="font-medium">{{ implode(', ', $form->packaging_list ?? []) }}</p>
+                            <p class="font-medium">{{ implode(', ', $packagingList) }}</p>
                         </div>
                         <div>
                             <p class="text-gray-600">Total Kemasan</p>
