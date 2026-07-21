@@ -76,8 +76,12 @@
                                 <td class="px-6 py-4 text-sm text-gray-600">{{ $form->created_at->format('d M Y') }}</td>
                                 <td class="px-6 py-4 text-center">
                                     <button onclick="showModal('form-modal-{{ $form->id }}')"
-                                        class="text-blue-600 hover:text-blue-700 font-semibold text-sm inline-flex items-center gap-1">
-                                        <i class="fas fa-eye"></i> Lihat
+                                        class="relative inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3 py-2 text-blue-700 hover:bg-blue-100 transition">
+                                        <span
+                                            class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white text-blue-700 shadow-sm">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                        <span class="text-sm font-semibold">Lihat</span>
                                     </button>
                                 </td>
                             </tr>

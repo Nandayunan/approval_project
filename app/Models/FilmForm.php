@@ -60,10 +60,11 @@ class FilmForm extends Model
     {
         return match ($this->status) {
             'draft' => 'Draft',
-            'submitted' => 'Menunggu Persetujuan Keamanan',
-            'security_approved' => 'Menunggu Persetujuan Export-Import',
-            'export_import_approved' => 'Menunggu Persetujuan Warehouse',
-            'warehouse_approved' => 'Disetujui',
+            'submitted' => 'Diajukan',
+            'menunggu_persetujuan_export_import' => 'Menunggu Persetujuan Export-Import',
+            'menunggu_persetujuan_warehouse' => 'Menunggu Persetujuan Warehouse',
+            'menunggu_persetujuan_security' => 'Menunggu Persetujuan Security',
+            'approved' => 'Disetujui',
             'rejected' => 'Ditolak',
             default => $this->status,
         };

@@ -66,14 +66,97 @@
                                 {{ $form->created_at->format('d M Y') }}
                             </td>
                             <td class="px-6 py-4 text-sm">
-                                <div class="flex gap-2">
-                                    <button class="text-blue-600 hover:text-blue-700 font-semibold transition"
-                                        onclick="alert('Detail form')">
+                                <button onclick="showModal('form-modal-{{ $form->id }}')"
+                                    class="relative inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3 py-2 text-blue-700 hover:bg-blue-100 transition">
+                                    <span
+                                        class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white text-blue-700 shadow-sm">
                                         <i class="fas fa-eye"></i>
-                                    </button>
-                                </div>
+                                    </span>
+                                    <span class="text-sm font-semibold">Lihat</span>
+                                </button>
                             </td>
                         </tr>
+
+                        <div id="form-modal-{{ $form->id }}"
+                            class="modal-wrapper hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+                            <div class="bg-white rounded-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-xl">
+                                <div
+                                    class="sticky top-0 bg-gradient-to-r from-red-600 to-rose-700 px-6 py-4 text-white flex justify-between items-center rounded-t-xl">
+                                    <h2 class="text-lg font-bold flex items-center gap-2">
+                                        <i class="fas fa-file-alt"></i>
+                                        Detail Formulir Tegra
+                                    </h2>
+                                    <button onclick="hideModal('form-modal-{{ $form->id }}')"
+                                        class="text-white hover:bg-white hover:bg-opacity-20 rounded-lg p-2 transition">
+                                        <i class="fas fa-times text-xl"></i>
+                                    </button>
+                                </div>
+                                <div class="p-6 space-y-6">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <p class="text-sm text-gray-600 font-semibold">Nomor PO</p>
+                                            <p class="font-medium text-gray-900">{{ $form->po_number }}</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm text-gray-600 font-semibold">Nomor Invoice</p>
+                                            <p class="font-medium text-gray-900">{{ $form->invoice_number }}</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm text-gray-600 font-semibold">Nama Item</p>
+                                            <p class="font-medium text-gray-900">{{ $form->item_name }}</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm text-gray-600 font-semibold">Kode Item</p>
+                                            <p class="font-medium text-gray-900">{{ $form->item_code }}</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm text-gray-600 font-semibold">Status</p>
+                                            <p class="font-medium text-gray-900">{{ $form->status }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-gray-50 p-4 rounded-lg">
+                                        <div>
+                                            <p class="text-sm text-gray-600 font-semibold">Kuantitas</p>
+                                            <p class="font-medium text-gray-900">{{ $form->quantity }}</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm text-gray-600 font-semibold">Tipe</p>
+                                            <p class="font-medium text-gray-900">{{ $form->type }}</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm text-gray-600 font-semibold">Jenis Kemasan</p>
+                                            <p class="font-medium text-gray-900">{{ $form->packaging_type }}</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm text-gray-600 font-semibold">Jumlah Paket</p>
+                                            <p class="font-medium text-gray-900">{{ $form->package_quantity }}</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm text-gray-600 font-semibold">Berat Bersih</p>
+                                            <p class="font-medium text-gray-900">{{ $form->net_weight }} kg</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-gray-50 p-4 rounded-lg">
+                                        <div>
+                                            <p class="text-sm text-gray-600 font-semibold">Harga Item</p>
+                                            <p class="font-medium text-gray-900">
+                                                {{ number_format($form->item_price, 2, '.', ',') }}</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm text-gray-600 font-semibold">Catatan</p>
+                                            <p class="font-medium text-gray-900">{{ $form->notes ?? 'Tidak ada catatan' }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-6 border-t border-gray-200 flex justify-end gap-3">
+                                    <button onclick="hideModal('form-modal-{{ $form->id }}')"
+                                        class="btn-secondary px-4 py-2 rounded-lg">Tutup</button>
+                                </div>
+                            </div>
+                        </div>
                     @endforeach
                 </tbody>
             </table>
@@ -90,4 +173,14 @@
             </a>
         </div>
     @endif
+
+    <script>
+        function showModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        function hideModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+    </script>
 @endsection

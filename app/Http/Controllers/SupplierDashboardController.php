@@ -68,10 +68,10 @@ class SupplierDashboardController extends Controller
             // Keep backward-compatible column `po_invoice_number` populated
             'po_invoice_number' => ($validated['po_number'] ?? '') . (!empty($validated['invoice_number']) ? ' / ' . $validated['invoice_number'] : ''),
             'user_id' => Auth::id(),
-            'status' => 'menunggu_persetujuan_exim',
+            'status' => 'menunggu_persetujuan_export_import',
         ]));
 
-        // Create initial approval record for Export-Import (ExIm) level
+        // Create initial approval record for Export-Import level
         Approval::create([
             'user_id' => Auth::id(),
             'model_type' => 'PackagingForm',
@@ -127,10 +127,10 @@ class SupplierDashboardController extends Controller
 
         $form = ResinForm::create(array_merge($validated, [
             'user_id' => Auth::id(),
-            'status' => 'menunggu_persetujuan_exim',
+            'status' => 'menunggu_persetujuan_export_import',
         ]));
 
-        // Create initial approval record for Export-Import (ExIm) level
+        // Create initial approval record for Export-Import level
         Approval::create([
             'user_id' => Auth::id(),
             'model_type' => 'ResinForm',
@@ -186,10 +186,10 @@ class SupplierDashboardController extends Controller
 
         $form = FilmForm::create(array_merge($validated, [
             'user_id' => Auth::id(),
-            'status' => 'menunggu_persetujuan_exim',
+            'status' => 'menunggu_persetujuan_export_import',
         ]));
 
-        // Create initial approval record for Export-Import (ExIm) level
+        // Create initial approval record for Export-Import level
         Approval::create([
             'user_id' => Auth::id(),
             'model_type' => 'FilmForm',
@@ -231,10 +231,10 @@ class SupplierDashboardController extends Controller
 
         $form = TegraForm::create(array_merge($validated, [
             'user_id' => Auth::id(),
-            'status' => 'menunggu_persetujuan_exim',
+            'status' => 'menunggu_persetujuan_export_import',
         ]));
 
-        // Create initial approval record for Export-Import (ExIm) level
+        // Create initial approval record for Export-Import level
         Approval::create([
             'user_id' => Auth::id(),
             'model_type' => 'TegraForm',
