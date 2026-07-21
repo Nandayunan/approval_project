@@ -35,7 +35,7 @@
                                 <span
                                     class="px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-2
                                 @if ($form->status == 'menunggu_persetujuan_security') bg-yellow-100 text-yellow-800
-                                @elseif($form->status == 'menunggu_persetujuan_exim') bg-blue-100 text-blue-800
+                                @elseif($form->status == 'menunggu_persetujuan_export_import') bg-blue-100 text-blue-800
                                 @elseif($form->status == 'menunggu_persetujuan_warehouse') bg-purple-100 text-purple-800
                                 @elseif($form->status == 'approved') bg-green-100 text-green-800
                                 @elseif($form->status == 'rejected') bg-red-100 text-red-800
@@ -43,9 +43,9 @@
                                     @if ($form->status == 'menunggu_persetujuan_security')
                                         <i class="fas fa-hourglass-half"></i>
                                         Menunggu Persetujuan Security
-                                    @elseif($form->status == 'menunggu_persetujuan_exim')
+                                    @elseif($form->status == 'menunggu_persetujuan_export_import')
                                         <i class="fas fa-hourglass-half"></i>
-                                        Menunggu Persetujuan ExIm
+                                        Menunggu Persetujuan Export-Import
                                     @elseif($form->status == 'menunggu_persetujuan_warehouse')
                                         <i class="fas fa-hourglass-half"></i>
                                         Menunggu Persetujuan Warehouse

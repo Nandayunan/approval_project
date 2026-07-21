@@ -27,7 +27,12 @@ class SecurityDashboardController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('security.pending-approvals', compact('approvals'));
+        $approvedApprovals = Approval::where('approval_level', 'security')
+            ->where('status', 'approved')
+            ->orderBy('approved_at', 'desc')
+            ->get();
+
+        return view('security.pending-approvals', compact('approvals', 'approvedApprovals'));
     }
 
     public function viewForm($modelType, $modelId)
@@ -36,6 +41,7 @@ class SecurityDashboardController extends Controller
             'packaging' => PackagingForm::class,
             'resin' => ResinForm::class,
             'film' => FilmForm::class,
+            'tegra' => \App\Models\TegraForm::class,
             default => abort(404),
         };
 

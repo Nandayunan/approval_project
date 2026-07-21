@@ -32,7 +32,12 @@ class ExportImportDashboardController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('export_import.pending-approvals', compact('approvals'));
+        $approvedApprovals = Approval::where('approval_level', 'export_import')
+            ->where('status', 'approved')
+            ->orderBy('approved_at', 'desc')
+            ->get();
+
+        return view('export_import.pending-approvals', compact('approvals', 'approvedApprovals'));
     }
 
     public function viewForm($modelType, $modelId)
@@ -41,6 +46,7 @@ class ExportImportDashboardController extends Controller
             'packaging' => PackagingForm::class,
             'resin' => ResinForm::class,
             'film' => FilmForm::class,
+            'tegra' => \App\Models\TegraForm::class,
             default => abort(404),
         };
 

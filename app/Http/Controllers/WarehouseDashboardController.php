@@ -27,7 +27,12 @@ class WarehouseDashboardController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('warehouse.pending-approvals', compact('approvals'));
+        $approvedApprovals = Approval::where('approval_level', 'warehouse')
+            ->where('status', 'approved')
+            ->orderBy('approved_at', 'desc')
+            ->get();
+
+        return view('warehouse.pending-approvals', compact('approvals', 'approvedApprovals'));
     }
 
     public function approvedForms()
@@ -46,6 +51,7 @@ class WarehouseDashboardController extends Controller
             'packaging' => PackagingForm::class,
             'resin' => ResinForm::class,
             'film' => FilmForm::class,
+            'tegra' => \App\Models\TegraForm::class,
             default => abort(404),
         };
 
