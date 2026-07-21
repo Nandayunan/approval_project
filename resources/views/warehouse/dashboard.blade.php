@@ -133,7 +133,7 @@
 
                                         <!-- Form Data -->
                                         <div class="space-y-6 mb-6">
-                                            @if ($approval->model_type === 'PackagingForm')
+                                            @if (in_array($approval->model_type, ['PackagingForm', 'ResinForm', 'FilmForm']))
                                                 <div class="border-l-4 border-blue-600 pl-4">
                                                     <h3
                                                         class="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">
@@ -174,7 +174,19 @@
                                                         <div>
                                                             <p class="text-gray-600">Daftar Kemasan</p>
                                                             <p class="font-medium text-gray-900">
-                                                                {{ implode(', ', json_decode($form->packaging_list, true) ?? []) }}
+                                                                @php
+                                                                    $packagingList = $form->packaging_list;
+                                                                    if (!is_array($packagingList)) {
+                                                                        $packagingList = json_decode(
+                                                                            $packagingList,
+                                                                            true,
+                                                                        );
+                                                                    }
+                                                                    $packagingList = is_array($packagingList)
+                                                                        ? $packagingList
+                                                                        : [];
+                                                                @endphp
+                                                                {{ implode(', ', $packagingList) }}
                                                             </p>
                                                         </div>
                                                         <div>
