@@ -85,370 +85,328 @@
                                     </button>
                                 </td>
                             </tr>
-
-                            <!-- Modal -->
-                            <div id="approval-modal-{{ $approval->id }}"
-                                class="modal-wrapper fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
-                                style="display: none;">
-                                <div class="bg-white rounded-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-xl">
-                                    <!-- Header -->
-                                    <div
-                                        class="sticky top-0 bg-gradient-to-r from-purple-600 to-purple-700 px-6 py-4 text-white flex justify-between items-center rounded-t-xl">
-                                        <h2 class="text-lg font-bold flex items-center gap-2">
-                                            @if ($approval->model_type === 'PackagingForm')
-                                                <i class="fas fa-box"></i> Detail Formulir Pengemasan
-                                            @elseif($approval->model_type === 'ResinForm')
-                                                <i class="fas fa-flask"></i> Detail Formulir Continoa
-                                            @elseif($approval->model_type === 'FilmForm')
-                                                <i class="fas fa-film"></i> Detail Formulir Uncoat
-                                            @elseif($approval->model_type === 'TegraForm')
-                                                <i class="fas fa-microchip"></i> Detail Formulir Tegra
-                                            @endif
-                                        </h2>
-                                        <button onclick="hideModal('approval-modal-{{ $approval->id }}')"
-                                            class="text-white hover:bg-white hover:bg-opacity-20 rounded-lg p-2 transition">
-                                            <i class="fas fa-times text-xl"></i>
-                                        </button>
-                                    </div>
-
-                                    <!-- Content -->
-                                    <div class="p-6">
-                                        @php
-                                            $form = $approval->model;
-                                        @endphp
-
-                                        <!-- Form Details Grid -->
-                                        <div class="bg-gray-50 rounded-lg p-4 mb-6">
-                                            <h3 class="text-sm font-semibold text-gray-700 mb-4 uppercase tracking-wide">
-                                                Informasi Formulir</h3>
-                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                <div>
-                                                    <p class="text-xs text-gray-600 uppercase font-semibold">Diajukan oleh
-                                                    </p>
-                                                    <p class="text-sm font-medium text-gray-900">{{ $approval->user->name }}
-                                                        ({{ $approval->user->role }})
-                                                    </p>
-                                                </div>
-                                                <div>
-                                                    <p class="text-xs text-gray-600 uppercase font-semibold">Tanggal
-                                                        Pengajuan</p>
-                                                    <p class="text-sm font-medium text-gray-900">
-                                                        {{ $approval->created_at->format('d M Y H:i') }}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Form Data -->
-                                        <div class="space-y-6 mb-6">
-                                            @if (in_array($approval->model_type, ['PackagingForm', 'ResinForm', 'FilmForm']))
-                                                <div class="border-l-4 border-blue-600 pl-4">
-                                                    <h3
-                                                        class="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">
-                                                        Data Pemasok</h3>
-                                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                                                        <div>
-                                                            <p class="text-gray-600">Nama Pemasok</p>
-                                                            <p class="font-medium text-gray-900">{{ $form->supplier_name }}
-                                                            </p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-gray-600">NPWP</p>
-                                                            <p class="font-medium text-gray-900">{{ $form->npwp_number }}
-                                                            </p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-gray-600">No PO</p>
-                                                            <p class="font-medium text-gray-900">{{ $form->po_number }}</p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-gray-600">No Faktur</p>
-                                                            <p class="font-medium text-gray-900">
-                                                                {{ $form->invoice_number }}</p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-gray-600">No Plat Kendaraan</p>
-                                                            <p class="font-medium text-gray-900">
-                                                                {{ $form->vehicle_registration_number }}</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="border-l-4 border-purple-600 pl-4">
-                                                    <h3
-                                                        class="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">
-                                                        Data Kemasan</h3>
-                                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                                                        <div>
-                                                            <p class="text-gray-600">Daftar Kemasan</p>
-                                                            <p class="font-medium text-gray-900">
-                                                                {{ implode(', ', json_decode($form->packaging_list, true) ?? []) }}
-                                                            </p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-gray-600">Total Kemasan</p>
-                                                            <p class="font-medium text-gray-900">
-                                                                {{ $form->total_packages }}</p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-gray-600">Jenis Kemasan</p>
-                                                            <p class="font-medium text-gray-900">
-                                                                {{ $form->packaging_type }}</p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-gray-600">Kuantitas Kemasan</p>
-                                                            <p class="font-medium text-gray-900">
-                                                                {{ $form->package_quantity }}</p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-gray-600">Berat Kotor (Gross)</p>
-                                                            <p class="font-medium text-gray-900">{{ $form->gross_weight }}
-                                                                kg</p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-gray-600">Berat Bersih (Net)</p>
-                                                            <p class="font-medium text-gray-900">{{ $form->net_weight }} kg
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="border-l-4 border-green-600 pl-4">
-                                                    <h3
-                                                        class="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">
-                                                        Data Barang</h3>
-                                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                                                        <div>
-                                                            <p class="text-gray-600">HS Code</p>
-                                                            <p class="font-medium text-gray-900">{{ $form->hs_code }}</p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-gray-600">Nama Barang</p>
-                                                            <p class="font-medium text-gray-900">{{ $form->item_name }}</p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-gray-600">Kode Barang</p>
-                                                            <p class="font-medium text-gray-900">{{ $form->item_code }}</p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-gray-600">Kuantitas</p>
-                                                            <p class="font-medium text-gray-900">{{ $form->quantity }}</p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-gray-600">Tipe</p>
-                                                            <p class="font-medium text-gray-900">{{ $form->type }}</p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-gray-600">Harga Barang</p>
-                                                            <p class="font-medium text-gray-900">Rp
-                                                                {{ number_format($form->item_price, 0, ',', '.') }}</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="border-l-4 border-yellow-600 pl-4">
-                                                    <h3
-                                                        class="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">
-                                                        Jadwal</h3>
-                                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                                                        <div>
-                                                            <p class="text-gray-600">Tanggal Kedatangan</p>
-                                                            <p class="font-medium text-gray-900">
-                                                                {{ \Carbon\Carbon::parse($form->arrival_datetime)->format('d M Y H:i') }}
-                                                            </p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-gray-600">Tanggal Keberangkatan</p>
-                                                            <p class="font-medium text-gray-900">
-                                                                {{ \Carbon\Carbon::parse($form->departure_datetime)->format('d M Y H:i') }}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @elseif ($approval->model_type === 'TegraForm')
-                                                <div class="border-l-4 border-red-600 pl-4">
-                                                    <h3
-                                                        class="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">
-                                                        Detail Tegra</h3>
-                                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                                                        <div>
-                                                            <p class="text-gray-600">No PO</p>
-                                                            <p class="font-medium text-gray-900">{{ $form->po_number }}
-                                                            </p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-gray-600">No Faktur</p>
-                                                            <p class="font-medium text-gray-900">
-                                                                {{ $form->invoice_number }}</p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-gray-600">Nama Barang</p>
-                                                            <p class="font-medium text-gray-900">{{ $form->item_name }}
-                                                            </p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-gray-600">Kode Barang</p>
-                                                            <p class="font-medium text-gray-900">{{ $form->item_code }}
-                                                            </p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-gray-600">Kuantitas</p>
-                                                            <p class="font-medium text-gray-900">{{ $form->quantity }}</p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-gray-600">Tipe</p>
-                                                            <p class="font-medium text-gray-900">{{ $form->type }}</p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-gray-600">Jenis Kemasan</p>
-                                                            <p class="font-medium text-gray-900">
-                                                                {{ $form->packaging_type }}</p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-gray-600">Jumlah Paket</p>
-                                                            <p class="font-medium text-gray-900">
-                                                                {{ $form->package_quantity }}</p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-gray-600">Berat Bersih</p>
-                                                            <p class="font-medium text-gray-900">{{ $form->net_weight }}
-                                                                kg</p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-gray-600">Harga Barang</p>
-                                                            <p class="font-medium text-gray-900">Rp
-                                                                {{ number_format($form->item_price, 0, ',', '.') }}</p>
-                                                        </div>
-                                                        <div class="md:col-span-2">
-                                                            <p class="text-gray-600">Catatan</p>
-                                                            <p class="font-medium text-gray-900">{{ $form->notes ?? '-' }}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @endif
-                                        </div>
-
-                                        <!-- Approval History Section -->
-                                        @php
-                                            $allApprovals = \App\Models\Approval::where(
-                                                'model_type',
-                                                $approval->model_type,
-                                            )
-                                                ->where('model_id', $approval->model_id)
-                                                ->where('status', 'approved')
-                                                ->orderBy('created_at', 'asc')
-                                                ->get();
-                                        @endphp
-
-                                        @if ($allApprovals->count() > 0)
-                                            <div class="border-t pt-6 mt-6">
-                                                <h3
-                                                    class="text-sm font-semibold text-gray-700 mb-4 uppercase tracking-wide flex items-center gap-2">
-                                                    <i class="fas fa-history text-green-600"></i>
-                                                    Riwayat Persetujuan
-                                                </h3>
-
-                                                <div class="space-y-4">
-                                                    @foreach ($allApprovals as $hist)
-                                                        <div
-                                                            class="bg-gray-50 rounded-lg p-4 border-l-4 
-                                                        @if ($hist->approval_level == 'security') border-blue-600
-                                                        @elseif($hist->approval_level == 'export_import') border-purple-600
-                                                        @elseif($hist->approval_level == 'warehouse') border-green-600 @endif">
-
-                                                            <div class="flex justify-between items-start mb-2">
-                                                                <h4
-                                                                    class="font-semibold text-gray-900 flex items-center gap-2">
-                                                                    @if ($hist->approval_level == 'security')
-                                                                        <i class="fas fa-shield-alt text-blue-600"></i>
-                                                                        <span class="text-blue-700">Catatan dari
-                                                                            Security</span>
-                                                                    @elseif($hist->approval_level == 'export_import')
-                                                                        <i class="fas fa-warehouse text-purple-600"></i>
-                                                                        <span class="text-purple-700">Catatan dari
-                                                                            Export-Import</span>
-                                                                    @elseif($hist->approval_level == 'warehouse')
-                                                                        <i class="fas fa-boxes text-green-600"></i>
-                                                                        <span class="text-green-700">Catatan dari
-                                                                            Warehouse</span>
-                                                                    @endif
-                                                                </h4>
-                                                                <span
-                                                                    class="text-xs text-gray-600">{{ $hist->approved_at->format('d M Y H:i') }}</span>
-                                                            </div>
-
-                                                            <p class="text-sm text-gray-600 mb-2">
-                                                                <strong>Disetujui oleh:</strong>
-                                                                {{ $hist->approver->name ?? 'Sistem' }}
-                                                            </p>
-
-                                                            @if ($hist->notes)
-                                                                <div
-                                                                    class="bg-white rounded p-3 mt-2 border border-gray-200">
-                                                                    <p class="text-sm text-gray-700">{{ $hist->notes }}
-                                                                    </p>
-                                                                </div>
-                                                            @else
-                                                                <div
-                                                                    class="bg-white rounded p-3 mt-2 border border-gray-200">
-                                                                    <p class="text-sm text-gray-500 italic">Tidak ada
-                                                                        catatan</p>
-                                                                </div>
-                                                            @endif
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                        @endif
-
-                                        <!-- Decision Section -->
-                                        <div class="border-t pt-6">
-                                            <h3
-                                                class="text-sm font-semibold text-gray-700 mb-4 uppercase tracking-wide flex items-center gap-2">
-                                                <i class="fas fa-check-circle text-purple-600"></i>
-                                                Keputusan Persetujuan
-                                            </h3>
-
-                                            <div class="space-y-4">
-                                                <div>
-                                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Catatan
-                                                        (Opsional)</label>
-                                                    <textarea id="notes-{{ $approval->id }}"
-                                                        class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100 transition resize-none"
-                                                        rows="3" placeholder="Tambahkan catatan jika ada..."></textarea>
-                                                </div>
-
-                                                <div class="flex justify-end gap-3">
-                                                    <form action="{{ route('export_import.reject', $approval->id) }}"
-                                                        method="POST" class="inline">
-                                                        @csrf
-                                                        <input type="hidden" name="notes" class="reject-notes">
-                                                        <button type="submit"
-                                                            class="inline-flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition font-semibold"
-                                                            onclick="captureNotes('notes-{{ $approval->id }}', this.form)">
-                                                            <i class="fas fa-times"></i> Tolak
-                                                        </button>
-                                                    </form>
-                                                    <form action="{{ route('export_import.approve', $approval->id) }}"
-                                                        method="POST" class="inline">
-                                                        @csrf
-                                                        <input type="hidden" name="notes" class="approve-notes">
-                                                        <button type="submit"
-                                                            class="inline-flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition font-semibold"
-                                                            onclick="captureNotes('notes-{{ $approval->id }}', this.form)">
-                                                            <i class="fas fa-check"></i> Setujui
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         @endforeach
                     </tbody>
                 </table>
             </div>
+
+            @foreach ($pendingApprovals as $approval)
+                <!-- Modal -->
+                <div id="approval-modal-{{ $approval->id }}"
+                    class="modal-wrapper fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+                    style="display: none;">
+                    <div class="bg-white rounded-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-xl">
+                        <!-- Header -->
+                        <div
+                            class="sticky top-0 bg-gradient-to-r from-purple-600 to-purple-700 px-6 py-4 text-white flex justify-between items-center rounded-t-xl">
+                            <h2 class="text-lg font-bold flex items-center gap-2">
+                                @if ($approval->model_type === 'PackagingForm')
+                                    <i class="fas fa-box"></i> Detail Formulir Pengemasan
+                                @elseif($approval->model_type === 'ResinForm')
+                                    <i class="fas fa-flask"></i> Detail Formulir Continoa
+                                @elseif($approval->model_type === 'FilmForm')
+                                    <i class="fas fa-film"></i> Detail Formulir Uncoat
+                                @elseif($approval->model_type === 'TegraForm')
+                                    <i class="fas fa-microchip"></i> Detail Formulir Tegra
+                                @endif
+                            </h2>
+                            <button onclick="hideModal('approval-modal-{{ $approval->id }}')"
+                                class="text-white hover:bg-white hover:bg-opacity-20 rounded-lg p-2 transition">
+                                <i class="fas fa-times text-xl"></i>
+                            </button>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="p-6">
+                            @php
+                                $form = $approval->model;
+                            @endphp
+
+                            <!-- Form Details Grid -->
+                            <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                                <h3 class="text-sm font-semibold text-gray-700 mb-4 uppercase tracking-wide">
+                                    Informasi Formulir</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <p class="text-xs text-gray-600 uppercase font-semibold">Diajukan oleh</p>
+                                        <p class="text-sm font-medium text-gray-900">{{ $approval->user->name }}
+                                            ({{ $approval->user->role }})
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-600 uppercase font-semibold">Tanggal Pengajuan</p>
+                                        <p class="text-sm font-medium text-gray-900">
+                                            {{ $approval->created_at->format('d M Y H:i') }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Form Data -->
+                            <div class="space-y-6 mb-6">
+                                @if (in_array($approval->model_type, ['PackagingForm', 'ResinForm', 'FilmForm']))
+                                    <div class="border-l-4 border-blue-600 pl-4">
+                                        <h3 class="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">
+                                            Data Pemasok</h3>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                            <div>
+                                                <p class="text-gray-600">Nama Pemasok</p>
+                                                <p class="font-medium text-gray-900">{{ $form->supplier_name }}</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-600">NPWP</p>
+                                                <p class="font-medium text-gray-900">{{ $form->npwp_number }}</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-600">No PO</p>
+                                                <p class="font-medium text-gray-900">{{ $form->po_number }}</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-600">No Faktur</p>
+                                                <p class="font-medium text-gray-900">{{ $form->invoice_number }}</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-600">No Plat Kendaraan</p>
+                                                <p class="font-medium text-gray-900">
+                                                    {{ $form->vehicle_registration_number }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="border-l-4 border-purple-600 pl-4">
+                                        <h3 class="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">
+                                            Data Kemasan</h3>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                            <div>
+                                                <p class="text-gray-600">Daftar Kemasan</p>
+                                                <p class="font-medium text-gray-900">
+                                                    {{ implode(', ', json_decode($form->packaging_list, true) ?? []) }}
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-600">Total Kemasan</p>
+                                                <p class="font-medium text-gray-900">{{ $form->total_packages }}</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-600">Jenis Kemasan</p>
+                                                <p class="font-medium text-gray-900">{{ $form->packaging_type }}</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-600">Kuantitas Kemasan</p>
+                                                <p class="font-medium text-gray-900">{{ $form->package_quantity }}</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-600">Berat Kotor (Gross)</p>
+                                                <p class="font-medium text-gray-900">{{ $form->gross_weight }} kg</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-600">Berat Bersih (Net)</p>
+                                                <p class="font-medium text-gray-900">{{ $form->net_weight }} kg</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="border-l-4 border-green-600 pl-4">
+                                        <h3 class="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">
+                                            Data Barang</h3>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                            <div>
+                                                <p class="text-gray-600">HS Code</p>
+                                                <p class="font-medium text-gray-900">{{ $form->hs_code }}</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-600">Nama Barang</p>
+                                                <p class="font-medium text-gray-900">{{ $form->item_name }}</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-600">Kode Barang</p>
+                                                <p class="font-medium text-gray-900">{{ $form->item_code }}</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-600">Kuantitas</p>
+                                                <p class="font-medium text-gray-900">{{ $form->quantity }}</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-600">Tipe</p>
+                                                <p class="font-medium text-gray-900">{{ $form->type }}</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-600">Harga Barang</p>
+                                                <p class="font-medium text-gray-900">Rp
+                                                    {{ number_format($form->item_price, 0, ',', '.') }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="border-l-4 border-yellow-600 pl-4">
+                                        <h3 class="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">
+                                            Jadwal</h3>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                            <div>
+                                                <p class="text-gray-600">Tanggal Kedatangan</p>
+                                                <p class="font-medium text-gray-900">
+                                                    {{ \Carbon\Carbon::parse($form->arrival_datetime)->format('d M Y H:i') }}
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-600">Tanggal Keberangkatan</p>
+                                                <p class="font-medium text-gray-900">
+                                                    {{ \Carbon\Carbon::parse($form->departure_datetime)->format('d M Y H:i') }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @elseif ($approval->model_type === 'TegraForm')
+                                    <div class="border-l-4 border-red-600 pl-4">
+                                        <h3 class="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">
+                                            Detail Tegra</h3>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                            <div>
+                                                <p class="text-gray-600">No PO</p>
+                                                <p class="font-medium text-gray-900">{{ $form->po_number }}</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-600">No Faktur</p>
+                                                <p class="font-medium text-gray-900">{{ $form->invoice_number }}</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-600">Nama Barang</p>
+                                                <p class="font-medium text-gray-900">{{ $form->item_name }}</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-600">Kode Barang</p>
+                                                <p class="font-medium text-gray-900">{{ $form->item_code }}</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-600">Kuantitas</p>
+                                                <p class="font-medium text-gray-900">{{ $form->quantity }}</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-600">Tipe</p>
+                                                <p class="font-medium text-gray-900">{{ $form->type }}</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-600">Jenis Kemasan</p>
+                                                <p class="font-medium text-gray-900">{{ $form->packaging_type }}</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-600">Jumlah Paket</p>
+                                                <p class="font-medium text-gray-900">{{ $form->package_quantity }}</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-600">Berat Bersih</p>
+                                                <p class="font-medium text-gray-900">{{ $form->net_weight }} kg</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-600">Harga Barang</p>
+                                                <p class="font-medium text-gray-900">Rp
+                                                    {{ number_format($form->item_price, 0, ',', '.') }}</p>
+                                            </div>
+                                            <div class="md:col-span-2">
+                                                <p class="text-gray-600">Catatan</p>
+                                                <p class="font-medium text-gray-900">{{ $form->notes ?? '-' }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+
+                            <!-- Approval History Section -->
+                            @php
+                                $allApprovals = \App\Models\Approval::where('model_type', $approval->model_type)
+                                    ->where('model_id', $approval->model_id)
+                                    ->where('status', 'approved')
+                                    ->orderBy('created_at', 'asc')
+                                    ->get();
+                            @endphp
+
+                            @if ($allApprovals->count() > 0)
+                                <div class="border-t pt-6 mt-6">
+                                    <h3
+                                        class="text-sm font-semibold text-gray-700 mb-4 uppercase tracking-wide flex items-center gap-2">
+                                        <i class="fas fa-history text-green-600"></i>
+                                        Riwayat Persetujuan
+                                    </h3>
+
+                                    <div class="space-y-4">
+                                        @foreach ($allApprovals as $hist)
+                                            <div
+                                                class="bg-gray-50 rounded-lg p-4 border-l-4 @if ($hist->approval_level == 'security') border-blue-600 @elseif($hist->approval_level == 'export_import') border-purple-600 @elseif($hist->approval_level == 'warehouse') border-green-600 @endif">
+                                                <div class="flex justify-between items-start mb-2">
+                                                    <h4 class="font-semibold text-gray-900 flex items-center gap-2">
+                                                        @if ($hist->approval_level == 'security')
+                                                            <i class="fas fa-shield-alt text-blue-600"></i>
+                                                            <span class="text-blue-700">Catatan dari Security</span>
+                                                        @elseif($hist->approval_level == 'export_import')
+                                                            <i class="fas fa-warehouse text-purple-600"></i>
+                                                            <span class="text-purple-700">Catatan dari Export-Import</span>
+                                                        @elseif($hist->approval_level == 'warehouse')
+                                                            <i class="fas fa-boxes text-green-600"></i>
+                                                            <span class="text-green-700">Catatan dari Warehouse</span>
+                                                        @endif
+                                                    </h4>
+                                                    <span
+                                                        class="text-xs text-gray-600">{{ $hist->approved_at->format('d M Y H:i') }}</span>
+                                                </div>
+                                                <p class="text-sm text-gray-600 mb-2"><strong>Disetujui oleh:</strong>
+                                                    {{ $hist->approver->name ?? 'Sistem' }}</p>
+                                                @if ($hist->notes)
+                                                    <div class="bg-white rounded p-3 mt-2 border border-gray-200">
+                                                        <p class="text-sm text-gray-700">{{ $hist->notes }}</p>
+                                                    </div>
+                                                @else
+                                                    <div class="bg-white rounded p-3 mt-2 border border-gray-200">
+                                                        <p class="text-sm text-gray-500 italic">Tidak ada catatan</p>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endif
+
+                            <!-- Decision Section -->
+                            <div class="border-t pt-6">
+                                <h3
+                                    class="text-sm font-semibold text-gray-700 mb-4 uppercase tracking-wide flex items-center gap-2">
+                                    <i class="fas fa-check-circle text-purple-600"></i>
+                                    Keputusan Persetujuan
+                                </h3>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-semibold text-gray-700 mb-2">Catatan
+                                            (Opsional)</label>
+                                        <textarea id="notes-{{ $approval->id }}"
+                                            class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100 transition resize-none"
+                                            rows="3" placeholder="Tambahkan catatan jika ada..."></textarea>
+                                    </div>
+                                    <div class="flex justify-end gap-3">
+                                        <form action="{{ route('export_import.reject', $approval->id) }}" method="POST"
+                                            class="inline">
+                                            @csrf
+                                            <input type="hidden" name="notes" class="reject-notes">
+                                            <button type="submit"
+                                                class="inline-flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition font-semibold"
+                                                onclick="captureNotes('notes-{{ $approval->id }}', this.form)">
+                                                <i class="fas fa-times"></i> Tolak
+                                            </button>
+                                        </form>
+                                        <form action="{{ route('export_import.approve', $approval->id) }}" method="POST"
+                                            class="inline">
+                                            @csrf
+                                            <input type="hidden" name="notes" class="approve-notes">
+                                            <button type="submit"
+                                                class="inline-flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition font-semibold"
+                                                onclick="captureNotes('notes-{{ $approval->id }}', this.form)">
+                                                <i class="fas fa-check"></i> Setujui
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         @else
             <div class="text-center py-12">
                 <i class="fas fa-inbox text-gray-300 text-5xl mb-4"></i>
@@ -475,16 +433,6 @@
                 notesInput.value = textarea.value;
             }
         }
-
-        // Close modal when clicking outside
-        document.addEventListener('click', function(event) {
-            if (event.target.classList && event.target.classList.contains('modal-wrapper')) {
-                const id = event.target.id;
-                if (id && id.startsWith('approval-modal-')) {
-                    hideModal(id);
-                }
-            }
-        });
 
         // Close modal when clicking outside
         document.addEventListener('click', function(event) {

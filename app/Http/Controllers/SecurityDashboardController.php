@@ -15,6 +15,7 @@ class SecurityDashboardController extends Controller
     {
         $pendingApprovals = Approval::where('approval_level', 'security')
             ->where('status', 'pending')
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return view('security.dashboard', compact('pendingApprovals'));

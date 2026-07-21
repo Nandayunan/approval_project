@@ -8,7 +8,7 @@
             @if ($modelType === 'packaging')
                 Detail Formulir Pengemasan
             @elseif ($modelType === 'resin')
-                Detail Formulir Resin
+                Detail Formulir Continoa
             @elseif ($modelType === 'film')
                 Detail Formulir Uncoat
             @elseif ($modelType === 'tegra')

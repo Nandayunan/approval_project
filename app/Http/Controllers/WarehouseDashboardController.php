@@ -15,6 +15,7 @@ class WarehouseDashboardController extends Controller
     {
         $pendingApprovals = Approval::where('approval_level', 'warehouse')
             ->where('status', 'pending')
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return view('warehouse.dashboard', compact('pendingApprovals'));

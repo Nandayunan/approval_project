@@ -15,6 +15,7 @@ class ExportImportDashboardController extends Controller
     {
         $pendingApprovals = Approval::where('approval_level', 'export_import')
             ->where('status', 'pending')
+            ->orderBy('created_at', 'desc')
             ->get();
 
         $approvedForms = Approval::where('approval_level', 'export_import')

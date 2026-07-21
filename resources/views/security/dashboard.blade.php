@@ -55,7 +55,7 @@
                                     @elseif($approval->model_type === 'ResinForm')
                                         <span
                                             class="inline-flex items-center gap-2 px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-semibold">
-                                            <i class="fas fa-flask"></i> Resin
+                                            <i class="fas fa-flask"></i> Continoa
                                         </span>
                                     @elseif($approval->model_type === 'FilmForm')
                                         <span
@@ -93,7 +93,7 @@
                                             @if ($approval->model_type === 'PackagingForm')
                                                 <i class="fas fa-box"></i> Detail Formulir Pengemasan
                                             @elseif($approval->model_type === 'ResinForm')
-                                                <i class="fas fa-flask"></i> Detail Formulir Resin
+                                                <i class="fas fa-flask"></i> Detail Formulir Continoa
                                             @elseif($approval->model_type === 'FilmForm')
                                                 <i class="fas fa-film"></i> Detail Formulir Uncoat
                                             @endif
